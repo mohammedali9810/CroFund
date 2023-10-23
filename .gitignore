@@ -1,0 +1,9 @@
+env
+.idea
+.vscode
+
+media/pp/
+media/projp/
+migrations/
+
+__pycache__
