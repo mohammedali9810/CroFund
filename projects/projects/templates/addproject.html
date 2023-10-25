@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="addproject_container">
+    <div class="create_form">
+        {% for i  in messages %}
+        <p style="color:blue">{{i}}</p>
+    {% endfor %}
+        <form action="{%url 'addproject'  %}" method="post" enctype="multipart/form-data">     
+            {% csrf_token %}
+            {{ form.as_p }}
+            {{ form2.as_p }}
+            <label for="tag">Tags: </label>
+            <input type="text" name='tags' id='tag'> *Add your tags separated by comma
+            </br>
+            <input type="submit" value="Submit">
+            <br/>
+        </form>
+    </div>
+</div>
+{% endblock %}
