@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+          integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <!-- App CSS -->
+    <link id="theme-style" rel="stylesheet" href="{% static 'css/portal.css' %}"/>
+
+
+</head>
+<body class="app app-login p-0">
+
+<div>
+    <div>
+        <div class="d-flex flex-column align-content-end">
+            <div class="app-auth-body mx-auto">
+                <h2 class="auth-heading text-center mb-5">Log in to CroFund</h2>
+                <div class="auth-form-container text-start">
+                    <div class="container">
+
+                        <form class="auth-form login-form" method="POST">
+                            {% csrf_token %}
+
+                            {{ form.as_p }}
+                            <input class="bg-info" type="submit" name="submit" value="submit">
+                        </form>
+                        <div class="auth-option text-center pt-5">No Account? Sign up <a class="text-link"
+                                                                                         href="{% url 'register' %}">here</a>.
+                        </div>
+
+
+                    </div>
+                </div><!--//auth-form-container-->
+
+            </div><!--//auth-body-->
+
+            <footer class="app-auth-footer">
+                <div class="container text-center py-3">
+                    <p> Copyright CroFund</p>
+                </div>
+            </footer><!--//app-auth-footer-->
+        </div><!--//flex-column-->
+    </div><!--//auth-main-col-->
+</div><!--//row-->
+
+</body>
+</html>
