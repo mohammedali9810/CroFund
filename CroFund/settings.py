@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'projects',
+    'Users',
+    'api'
 ]
 
 MIDDLEWARE = [
@@ -122,8 +125,10 @@ STATIC_URL = 'static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 LOGIN_URL='users:login'
+
 EMAIL_USE_TLS = True  
-EMAIL_HOST = 'smtp.gmail.com'  
-EMAIL_HOST_USER = "Django74@gmail.com"    
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'djang7207@gmail.com'
+EMAIL_HOST_PASSWORD = 'nhdk jhrd pqtk bonb'
 EMAIL_PORT = 587
-EMAIL_HOST_PASSWORD = 'M!@345678'

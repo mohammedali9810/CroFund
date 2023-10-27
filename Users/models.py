@@ -1,7 +1,9 @@
 from django.contrib.auth.models import User
 
 from projects.models import *
+from django.db import models
 from api.models import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -74,3 +76,17 @@ class Reportno(models.Model):
 
     def __str__(self):
         return "User Id" + str(self.user_id)
+
+
+
+# -----------------------------------------------------------------------------------------------------------------
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone = models.CharField(max_length=20)
+    birth = models.DateField()
+
+    # Add other fields as needed
+
+    def __str__(self):
+        return self.user.username

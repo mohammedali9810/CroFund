@@ -1,5 +1,5 @@
 from django import forms
-from Users.models import Comment
+from Users.models import Comment, Donation
 from .models import *
 
 class Addcommentinproject(forms.ModelForm):  

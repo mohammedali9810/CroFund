@@ -3,10 +3,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.forms import formset_factory
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from ...Crowd-Funding-Web-app-Django.projects.models import *
+from projects.models import *
 from Users.models import *
 from django.db.models import Avg, Sum, Count
-from ...Crowd-Funding-Web-app-Django.projects.forms import *
+# from ...CroFund.projects.forms import *
+from projects.forms import *
 from django.contrib.auth.decorators import login_required
 
 # Define maximum numbers of reports and comments
@@ -27,7 +28,7 @@ def addproject(request):
     if request.method == 'POST':
         form = Addproject(request.POST)
         form2 = ImageFormSet(request.POST, request.FILES)
-        if form.is_valid() and form2.is valid():
+        if form.is_valid() and form2.isvalid():
             project = form.save(commit=False)
             project.user_id = get_object_or_404(User, id=session_user)
             project.save()
@@ -156,7 +157,7 @@ def reportComment(request, id, project_id):
     if Reportno.objects.filter(comment_id=id).count() > commentMaxNo:
         return redirect(deleteComment, id=id)
     else:
-        messages add_message(request, messages.INFO, 'Comment Reported successfully')
+        messages.add_message(request, messages.INFO, 'Comment Reported successfully')
         return redirect(viewdataofproject, id=project_id)
 
 # Rate view
