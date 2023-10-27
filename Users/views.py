@@ -18,7 +18,8 @@ from django.template.loader import render_to_string
 from .token import account_activation_token
 from django.contrib.auth.models import User  
 from django.core.mail import EmailMessage
-from CroFund import settings
+from django.contrib import messages
+
 
 
 
@@ -145,6 +146,21 @@ def register(request):
         form = UserRegisterForm()
         form2 = UserProfile()
     return render(request,'register.html', {'form': form , 'form2':form2})
+
+@login_required
+def delete_profile(request, id):
+    user = User.objects.get(pk=id)
+    if request.user == user:
+        if request.method == 'POST':
+            user.delete()
+            messages.success(request, 'Your profile has been deleted successfully.')
+            return redirect('login')
+        else:
+            return render(request, 'delprofile.html', {'user': user})
+    else:
+        messages.error(request, 'You are not authorized to delete this profile.')
+        return redirect('login')
+
 
 
 
