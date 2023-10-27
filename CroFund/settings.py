@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -77,9 +77,9 @@ DATABASES = DATABASES = {
 
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'fund',
-        'USER': 'msayed',
-        'PASSWORD': '12345',
+        'NAME': 'crofund',
+        'USER': 'mali9810',
+        'PASSWORD': 'M123456',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -126,4 +126,4 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'  
 EMAIL_HOST_USER = "Django74@gmail.com"    
 EMAIL_PORT = 587
-EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
+EMAIL_HOST_PASSWORD = 'M!@345678'
