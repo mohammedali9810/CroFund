@@ -140,7 +140,7 @@ def register(request):
             })   
             to_email = form.cleaned_data.get('email')  
             email = EmailMessage(  
-                        mail_subject, message, from_email=settings.EMAIL_HOST_USER, to=[to_email]
+                        mail_subject, message, to=[to_email]
             ) 
             email.send()  
             return HttpResponse('Please confirm your email address to complete the registration')  

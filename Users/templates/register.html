@@ -28,7 +28,6 @@
 
                 <div class="auth-form-container text-start mx-auto" style="position:relative; z-index: 10;">
 
-
                     <form class="auth-form auth-signup-form" method="POST" action="" enctype="multipart/form-data">
                         {% csrf_token %}
 
@@ -37,16 +36,14 @@
                         {{ form2.as_p }}
 
                         <div class="text-center ">
-                            <button type="submit" class="btn bg-info theme-btn ">Sign Up
-                            </button>
+                            <button type="submit" class="btn bg-info theme-btn ">Sign Up</button>
                         </div>
                         {#                            <div class="auth-option text-center pt-5">Already have an account? <a class="text-link"#}
                         {#                                                                                                  href="{%  url ' login' %}">Log#}
                         {#                                in</a></div>#}
                     </form><!--//auth-form-->
-                    <div class="auth-option text-center pt-5" >Already have an account? <a class="text-link"
-                                                                                          href="{% url 'login' %}">Log
-                        In</a>.
+                    <div class="auth-option text-center pt-5" >Already have an account?
+                        <a class="text-link" href="{% url 'login' %}">Log In</a>.
 
 
                     </div>
