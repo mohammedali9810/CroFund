@@ -21,9 +21,6 @@ from django.core.mail import EmailMessage
 from CroFund import settings
 
 
-# from django.contrib.auth.decorators import login_required
-
-# Create your views here.
 
 @login_required 
 def index(request):
@@ -97,7 +94,6 @@ def editprofile(request, id):
     return redirect(profile, username=ur.username)
 
 
-#OUR FIRST STEPS
 
 def user_login(request):
     if request.method == 'POST':
@@ -132,7 +128,7 @@ def register(request):
             profile.save()
             current_site = get_current_site(request) 
             mail_subject = 'Activation link has been sent to your email id'  
-            message = render_to_string('acc_active_email.html', {  
+            message = render_to_string('acc_active_email.html', {
                 'user': pr,  
                 'domain': current_site.domain,  
                 'uid':urlsafe_base64_encode(force_bytes(pr.pk)), 
