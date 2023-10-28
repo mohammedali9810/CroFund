@@ -28,7 +28,7 @@ def addproject(request):
     if request.method == 'POST':
         form = Addproject(request.POST)
         form2 = ImageFormSet(request.POST, request.FILES)
-        if form.is_valid() and form2.isvalid():
+        if form.is_valid() and form2.is_valid():
             project = form.save(commit=False)
             project.user_id = get_object_or_404(User, id=session_user)
             project.save()
