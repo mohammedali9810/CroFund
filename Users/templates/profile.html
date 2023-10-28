@@ -5,7 +5,7 @@
     <!-- {{addtionalinfo.birth}} -->
     <div class="container">
         <form action="{% url 'editprofile' userinfo.id %}" method="post">
-            <h1 class="text-center mb-4">Profile Information</h1>
+            <h1 class="text-center mb-4">Profile Details</h1>
             {% csrf_token %}
             
             <div class="row">
@@ -41,11 +41,10 @@
                                placeholder="Enter social media " value="{{ addtionalinfo.social_media }}">
                     </div>
                 </div>
-                <div class="col-lg-3 pull-right">
-                    <div class="row">
-                        <img src="{{ addtionalinfo.image.url }}" width="100" height="100"
-                             style="display:block;border-radius: 50%;border: 3px solid #222;" alert="Avatar"/>
-                    </div>
+                <div class="col-lg-3 ml-auto">
+                  <div class="card" style="width: 18rem; border-radius: 15px;">
+                   <img style="border-radius: 15px;" src="{{ addtionalinfo.image.url }}" class="card-img-top" alt="Avatar">
+                  </div>
                 </div>
             </div>
             <!-- Send button -->

@@ -6,8 +6,6 @@ from django.contrib.auth import (
     logout,
     get_user_model
 )
-from projects.models import *
-from .models import *
 from .forms import *
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg
