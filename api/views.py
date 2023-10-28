@@ -82,38 +82,11 @@ def get_profile_data(current_user):
     return data
 
 
-"""
-<QueryDict: {
-    'csrfmiddlewaretoken': ['___'], 
-    'name': ['___'],
-    'password': ['___'],
-    'phone': ['___'], 
-    'birth': ['___'],
-    'social_media': ['___'],
-    'country': ['___'],
-    'image': ['___']
-}>
-
-# Profile model:
-  user
-  phone
-  birth
-  social_media
-  country
-  image
-
-"""
-
-# TODO: create an instance of a new user and an instance of a profile based on that user
 
 class UserProfileViewSet(viewsets.ViewSet):
     queryset = Profile.objects.all()
     serializer_class = UserProfileSerializer
 
-    
-
-    # CREATE
-    # first create a user then assgin a profile to him
     def create(self, request):
         """
         creating a new user/profile is available for all 
@@ -131,16 +104,8 @@ class UserProfileViewSet(viewsets.ViewSet):
 
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
-    """
-    override the retrieve method to only get his profile 
-    """
-    # RETRIEVE
     def retrieve(self, request, pk=None):
         current_user = request.user
-        """
-        Accessing other profiles is not authorized
-        """
-
         if int(pk) != current_user.id:
             return Response(status=status.HTTP_203_NON_AUTHORITATIVE_INFORMATION)
 
@@ -150,9 +115,6 @@ class UserProfileViewSet(viewsets.ViewSet):
     # UPDATE
     def update(self, request, pk=None):
         current_user = request.user
-        """
-        Update other profiles is not authorized
-        """
         if int(pk) != current_user.id:
             return Response(status=status.HTTP_203_NON_AUTHORITATIVE_INFORMATION)
 
