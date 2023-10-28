@@ -14,4 +14,7 @@ urlpatterns = [
     path('project/list/', views.projectsList, name="projects list"),
     path('project/list/<str:pk>/', views.projectList, name="project list"),
     path('project/create/', views.projectCreate, name="Project-create"),
+    path('user/<int:pk>', views.user_detail),
+    path('myprofile/', views.user_profile),
+    path('editprofile/', views.profile_edit)
 ]

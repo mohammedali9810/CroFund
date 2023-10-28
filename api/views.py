@@ -8,14 +8,11 @@ from .views import *
 from projects.models import *
 from Users.models import *
 from django.db.models import Avg,Sum,Count
-# Create your views here.
+
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def user_detail(request, pk, format=None):
-    """
-    Retrieve, update or delete a code snippet.
-    """
     try:
         snippet = User.objects.get(pk=pk)
     except User.DoesNotExist:
@@ -53,17 +50,10 @@ Profile User CRUD
 """
 
 
-# Helper function to combine all the profile data => return data
-
 def get_profile_data(current_user):
-    # only one profile per user => get
     current_user_profile = Profile.objects.get(user=current_user)
-    # many projects => filter
     current_user_projects = Projects.objects.filter(user_id=current_user)
-    # many donations => filter
     current_user_donations = Donation.objects.filter(user_id=current_user)
-
-    # overall user donation => Just in one line ^^
     d_sum = sum(
         map(
             lambda x: x['amount_of_money'],
@@ -71,7 +61,7 @@ def get_profile_data(current_user):
         )
     )
 
-    # Setting up serializers
+    # Init the Serializer
     profile_serializer = UserProfileSerializer()
     project_serializer = ProjectSer(many=True)
     donation_serializer = DonationSerializer(many=True)
@@ -121,9 +111,6 @@ class UserProfileViewSet(viewsets.ViewSet):
     # DELETE
     def destroy(self, request, pk=None):
         current_user = request.user
-        """
-        Accessing other profiles is not authorized
-        """
         if int(pk) != current_user.id:
             return Response(status=status.HTTP_203_NON_AUTHORITATIVE_INFORMATION)
 
@@ -136,13 +123,6 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
-
-
-# Create
-# Retrieve
-"""
-This is another way to retrieve user profile
-"""
 
 
 @api_view(['GET'])
