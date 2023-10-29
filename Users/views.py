@@ -1,22 +1,20 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponseRedirect, HttpResponse
-from django.contrib.auth import (
-    authenticate,
-    login,
-    logout,
-    get_user_model
-)
+from django.contrib.auth import ( authenticate,login,logout,get_user_model)
 from .forms import *
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg
 from django.contrib.sites.shortcuts import get_current_site  
 from django.utils.encoding import force_bytes, force_str 
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode  
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils import timezone
+from datetime import datetime, timedelta
 from django.template.loader import render_to_string  
 from .token import account_activation_token
 from django.contrib.auth.models import User  
 from django.core.mail import EmailMessage
 from django.contrib import messages
+
 
 
 
@@ -86,11 +84,45 @@ def profile(request, username):
 
 @login_required
 def editprofile(request, id):
-    user = User.objects.filter(pk = id).update(username=request.POST['username'], email=request.POST['email'])
-    addtionalinfo = Profile.objects.filter(user_id = id).update(country=request.POST['country'], phone=request.POST['phone'], social_media=request.POST['social_media'],birth=request.POST['birth'])
-    ur = User.objects.get(pk = id)
+    if request.method == 'POST':
+        birthdate_str = request.POST.get('birth', '')
+        birthdate = datetime.strptime(birthdate_str, '%Y-%m-%d').date() if birthdate_str else None
+        if birthdate and (timezone.now().date() - birthdate) < timedelta(days=365 * 18):
+            messages.error(request, 'You must be at least 18 years old.')
+            return redirect('profile', username=request.user.username)
 
-    return redirect(profile, username=ur.username)
+        user = User.objects.get(pk=id)
+
+        if request.POST['username'] != user.username:
+            messages.success(request, 'Username updated successfully.')
+            user.username = request.POST['username']
+
+        if request.POST['email'] != user.email:
+            messages.success(request, 'Email updated successfully.')
+            user.email = request.POST['email']
+
+        user.save()
+
+        profile = user.profile
+        if request.POST['country'] != profile.country:
+            messages.success(request, 'Country updated successfully.')
+            profile.country = request.POST['country']
+
+        if request.POST['social_media'] != profile.social_media:
+            messages.success(request, 'Social Media updated successfully.')
+            profile.social_media = request.POST['social_media']
+
+        if request.POST['phone'] != profile.phone:
+            messages.success(request, 'Phone Number updated successfully.')
+            profile.phone = request.POST['phone']
+
+        if request.POST['birth'] != profile.birth:
+            messages.success(request, 'Birth Date updated successfully.')
+            profile.birth = request.POST['birth']
+
+        profile.save()
+
+        return redirect('profile', username=user.username)
 
 
 

@@ -2,7 +2,26 @@
 {% block title %} Profile {% endblock %}
 
 {% block content %}
-    <!-- {{addtionalinfo.birth}} -->
+{% if messages %}
+<div class="container-fluid p-0">
+    {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible" role="alert" id="autoDismissAlert{{ forloop.counter }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var alerts = document.querySelectorAll('[id^="autoDismissAlert"]');
+        alerts.forEach(function (alert, index) {
+            setTimeout(function () {
+                alert.style.display = 'none';
+            }, (index + 1) * 3000);  // Delay increases for each subsequent alert
+        });
+    });
+</script>
+{% endif %}
     <div class="container">
         <form action="{% url 'editprofile' userinfo.id %}" method="post">
             <h1 class="text-center mb-4">Profile Details</h1>
@@ -31,9 +50,9 @@
                                value="{{ addtionalinfo.phone }}" pattern="^01[0|1|2|5][0-9]{8}$">
                     </div>
                     <div class="row">
-                        <label for="birthday">Birthday</label>
-                        <input type="date" class="form-control" id="birthday" name="birth" placeholder="Enter birthday "
-                               value="{{ addtionalinfo.birth }}">
+                       <label for="birthday">Birthday</label>
+                       <input type="date" class="form-control" id="birthday" name="birth" placeholder="Enter birthday"
+                               value="{{ addtionalinfo.birth|date:'Y-m-d' }}">
                     </div>
                     <div class="row">
                         <label for="social_media">Social Media</label>
