@@ -26,6 +26,28 @@ class Addproject(forms.ModelForm):
         cleaned_data = super().clean()
         start_date = cleaned_data.get("start_time")
         end_date = cleaned_data.get("end_time")
+        title = cleaned_data.get("title")
+        details = cleaned_data.get("details")
+        category = cleaned_data.get("category")
+        total_target = cleaned_data.get("total_target")
+
+        if not start_date:
+            self.add_error('start_time', 'Start date is required.')
+
+        if not end_date:
+            self.add_error('end_time', 'End date is required.')
+
+        if not title:
+            self.add_error('title', 'Title is required.')
+
+        if not details:
+            self.add_error('details', 'Details are required.')
+
+        if not category:
+            self.add_error('category', 'Category is required.')
+
+        if not total_target:
+            self.add_error('total_target', 'Total target is required.')
 
         if start_date and end_date and start_date >= end_date:
             self.add_error('start_time', 'Start date must be earlier than the end date.')
@@ -36,12 +58,16 @@ class Addimage(forms.ModelForm):
     class Meta:
         model = Images
         exclude = ['project_id']
+        widgets = {
+            'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        }
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # Set 'required' attribute only for the first image field
-        self.fields['image'].required = True
-        self.fields['image'].widget.attrs.update({'class': 'form-control'})
+    def clean_image(self):
+        image = self.cleaned_data.get('image')
+        if not image:
+            raise forms.ValidationError('The image field is required.')
+        return image
+
 
 class addDonation(forms.ModelForm):
       class Meta: 

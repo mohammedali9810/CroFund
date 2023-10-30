@@ -22,7 +22,7 @@ def index(request):
 @login_required
 def addproject(request):
     session_user = request.user.id
-    ImageFormSet = formset_factory(Addimage, extra=3)
+    ImageFormSet = formset_factory(Addimage)
     categories = Categories.objects.all()
 
     if request.method == 'POST':
