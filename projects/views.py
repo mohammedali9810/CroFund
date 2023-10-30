@@ -5,8 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from projects.models import *
 from Users.models import *
+from Users.views import index as usind
 from django.db.models import Avg, Sum, Count
-# from ...CroFund.projects.forms import *
 from projects.forms import *
 from django.contrib.auth.decorators import login_required
 
@@ -28,27 +28,39 @@ def addproject(request):
     if request.method == 'POST':
         form = Addproject(request.POST)
         form2 = ImageFormSet(request.POST, request.FILES)
+
         if form.is_valid() and form2.is_valid():
-            project = form.save(commit=False)
-            project.user_id = get_object_or_404(User, id=session_user)
-            project.save()
+            cleaned_data = form.cleaned_data
+            start_date = cleaned_data.get("start_time")
+            end_date = cleaned_data.get("end_time")
 
-            data = request.POST['tags']
-            data = data.split(',')
-            for i in data:
-                project.tags.add(addtag(i))
+            if  start_date >= end_date:
+                messages.error(request, 'Start date must be earlier than the end date.')
+            else:
+                project = form.save(commit=False)
+                project.user_id = get_object_or_404(User, id=session_user)
+                project.save()
 
-            for form in form2.cleaned_data:
-                if form:
-                    image = form['image']
-                    photo = Images(project_id=project, image=image)
-                    photo.save()
+                data = request.POST['tags']
+                data = data.split(',')
+                for i in data:
+                    project.tags.add(addtag(i))
 
-                    messages.add_message(request, messages.INFO, 'Project Added successfully')
-            return redirect(viewdataofproject, id=project.id)
+                for form in form2.cleaned_data:
+                    if form:
+                        image = form['image']
+                        photo = Images(project_id=project, image=image)
+                        photo.save()
 
-    form = Addproject()
-    form2 = ImageFormSet()
+                messages.success(request, 'Project Added successfully')
+                return redirect(viewdataofproject, id=project.id)
+        else:
+            messages.error(request, 'Please correct the errors in the form.')
+
+    else:
+        form = Addproject()
+        form2 = ImageFormSet()
+
     context = {"form": form, "form2": form2, 'categories': categories}
     return render(request, 'addproject.html', context)
 
@@ -123,7 +135,7 @@ def search(request):
 @login_required
 def delete(request, id):
     Projects.objects.get(pk=id).delete()
-    return redirect(index)
+    return redirect(usind)
 
 # Report Project view
 @login_required

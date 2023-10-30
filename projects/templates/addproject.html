@@ -1,20 +1,100 @@
 {% extends "layout.html" %}
 {% block content %}
+{% if messages %}
+<div class="container-fluid p-0">
+    {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible" role="alert" id="autoDismissAlert{{ forloop.counter }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var alerts = document.querySelectorAll('[id^="autoDismissAlert"]');
+        alerts.forEach(function (alert, index) {
+            setTimeout(function () {
+                alert.style.display = 'none';
+            }, (index + 1) * 3000);  // Delay increases for each subsequent alert
+        });
+    });
+</script>
+{% endif %}
 <div class="addproject_container">
     <div class="create_form">
-        {% for i  in messages %}
-        <p style="color:blue">{{i}}</p>
-    {% endfor %}
-        <form action="{%url 'addproject'  %}" method="post" enctype="multipart/form-data">     
+        <form action="{% url 'addproject' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form.as_p }}
+            <div class="mb-3">
+                <label for="{{ form.title.id_for_label }}" class="form-label">Title:</label>
+                {{ form.title }}
+                {% if form.title.errors %}
+                    <div class="invalid-feedback">
+                        {{ form.title.errors.0 }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <label for="{{ form.details.id_for_label }}" class="form-label">Details:</label>
+                {{ form.details }}
+                {% if form.details.errors %}
+                    <div class="invalid-feedback">
+                        {{ form.details.errors.0 }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <label for="{{ form.category.id_for_label }}" class="form-label">Category:</label>
+                {{ form.category }}
+                {% if form.category.errors %}
+                    <div class="invalid-feedback">
+                        {{ form.category.errors.0 }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <label for="{{ form.total_target.id_for_label }}" class="form-label">Total Target:</label>
+                {{ form.total_target }}
+                {% if form.total_target.errors %}
+                    <div class="invalid-feedback">
+                        {{ form.total_target.errors.0 }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <label for="{{ form.start_time.id_for_label }}" class="form-label">Start Date:</label>
+                {{ form.start_time }}
+                {% if form.start_time.errors %}
+                    <div class="invalid-feedback">
+                        {{ form.start_time.errors.0 }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <label for="{{ form.end_time.id_for_label }}" class="form-label">End Date:</label>
+                {{ form.end_time }}
+                {% if form.end_time.errors %}
+                    <div class="invalid-feedback">
+                        {{ form.end_time.errors.0 }}
+                    </div>
+                {% endif %}
+            </div>
+
             {{ form2.as_p }}
-            <label for="tag">Tags: </label>
-            <input type="text" name='tags' id='tag'> *Add your tags separated by comma
-            </br>
-            <input type="submit" value="Submit">
-            <br/>
+
+            <div class="mb-3">
+                <label for="tag" class="form-label">Tags:</label>
+                <input type="text" name="tags" id="tag" class="form-control">
+                <small class="form-text text-muted">Add your tags separated by comma.</small>
+            </div>
+
+            <input type="submit" value="Submit" class="btn btn-primary">
         </form>
     </div>
 </div>
+
 {% endblock %}

@@ -25,23 +25,19 @@ def index(request):
     admin_choice=[]  
     latest_projects=[]
 
-    #Categories 
     categories=Categories.objects.all()
 
-    #Top rated binding with their images
     top_rated=Rating.objects.values('project_id').annotate(rates=Avg('rating')).order_by('-rates')[:5]  
     for i in top_rated:
         project=Projects.objects.get(pk=i['project_id'])
         images=Images.objects.filter(project_id=i['project_id'])
         top_5projects.append({'project':project,'images':images})
 
-    #Admin choosen projects binding with their images
     admin_choice_query=Choosen_by_Admin.objects.all()[:5]  
     for i in admin_choice_query:
         images=Images.objects.filter(project_id=i.id)
         admin_choice.append({'project':i,'images':images})
 
-    #Latest Added projects
     latest_projects_query=Projects.objects.order_by('-id')[:5]   
     for i in latest_projects_query:
         images=Images.objects.filter(project_id=i.id)
