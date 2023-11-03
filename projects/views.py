@@ -11,7 +11,7 @@ from projects.forms import *
 from django.contrib.auth.decorators import login_required
 
 # Define maximum numbers of reports and comments
-reportsMaxNo = 3
+reportsMaxNo = 7
 commentMaxNo = 5
 
 # Define a view for the home page
