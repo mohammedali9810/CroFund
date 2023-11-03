@@ -30,7 +30,7 @@ class UserProfile(forms.ModelForm):
 class userLogin(forms.Form):
     username = forms.CharField(label="",widget=forms.TextInput(attrs={"placeholder":"Enter username"}))
     password = forms.CharField(label="",widget=forms.PasswordInput(attrs={"placeholder":"Password"}))
-###Clean Data###
+
 
     def clean(self,*args,**kwargs):
         username = self.cleaned_data.get("username")
@@ -43,3 +43,4 @@ class userLogin(forms.Form):
             if not user.check_password(password):
                 raise forms.ValidationError("the password not correct")
         return super(userLogin, self).clean(*args,**kwargs)
+
